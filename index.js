@@ -106,7 +106,7 @@ app.post("/api/user/login", (req, res) => {
 
 
 // Creating the token
-app.post('/create_link_token', async function (request, response) {
+app.post('/api/user/create_link_token', async function (request, response) {
     // Get the client_user_id by searching for the current user
     const clientUserId = user.id;
     const plaidRequest = {
