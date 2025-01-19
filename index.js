@@ -12,6 +12,21 @@ const passportJWT = require("passport-jwt");
 const HTTP_PORT = process.env.PORT || 3000;
 
 
+const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
+
+
+const configuration = new Configuration({
+  basePath: PlaidEnvironments.sandbox,
+  baseOptions: {
+    headers: {
+      'PLAID-CLIENT-ID': "678cd49a4e07440022e67b48",
+      'PLAID-SECRET': "a05da13dff7b18efef3013e94fc72d",
+    },
+  },
+});
+
+const plaidClient = new PlaidApi(configuration)
+
 
 
 
@@ -90,7 +105,30 @@ app.post("/api/user/login", (req, res) => {
 });
 
 
+// Creating the token
+app.post('/create_link_token', async function (request, response) {
+    // Get the client_user_id by searching for the current user
+    const clientUserId = user.id;
+    const plaidRequest = {
+      user: {
+        // This should correspond to a unique id for the current user.
+        client_user_id: 'user',
+      },
+      client_name: 'Plaid Test App',
+      products: ['auth'],
+      language: 'en',
+      redirect_uri: 'http://localhost:3000/',
+      country_codes: ['US'],
+    };
+    try {
+      const createTokenResponse = await plaidClient.linkTokenCreate(plaidRequest);
+      response.json(createTokenResponse.data);
+    } catch (error) {
+      // handle error
+      response.status(500).send("Failure")
+    }
 
+  });
 
 
 userService.connect()
