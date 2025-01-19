@@ -47,7 +47,7 @@ module.exports.registerUser = function (userData) {
                 let newUser = new User(userData);
 
                 newUser.save().then(() => {
-                    resolve("User " + userData.userName + " successfully registered");  
+                    resolve("User " + userData.first_name + " successfully registered");  
                 }).catch(err => {
                     if (err.code == 11000) {
                         reject("User Name already taken");
@@ -70,7 +70,7 @@ module.exports.checkUser = function (userData) {
                     if (res === true) {
                         resolve(user);
                     } else {
-                        reject("Incorrect password for user " + userData.userName);
+                        reject("Incorrect password for user " + userData.first_name);
                     }
                 });
             }).catch(err => {
