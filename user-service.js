@@ -63,7 +63,7 @@ module.exports.registerUser = function (userData) {
 module.exports.checkUser = function (userData) {
     return new Promise(function (resolve, reject) {
 
-        User.findOne({ userName: userData.userName })
+        User.findOne({ email_phone: userData.email_phone})
             .exec()
             .then(user => {
                 bcrypt.compare(userData.password, user.password).then(res => {
