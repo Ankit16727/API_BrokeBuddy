@@ -70,7 +70,7 @@ module.exports.checkUser = function (userData) {
                     if (res === true) {
                         resolve(user);
                     } else {
-                        reject("Incorrect password for user " + userData.first_name);
+                        reject("Incorrect password for user " + userData.user);
                     }
                 });
             }).catch(err => {
