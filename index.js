@@ -12,6 +12,10 @@ const passportJWT = require("passport-jwt");
 const HTTP_PORT = process.env.PORT || 3000;
 
 
+
+
+
+
 // JSON Web Token Setup
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
@@ -51,6 +55,8 @@ app.use(passport.initialize());
 
 
 
+
+
 app.use(express.json());
 app.use(cors());
 
@@ -73,7 +79,7 @@ app.post("/api/user/login", (req, res) => {
     .then((user) => {
         let payload = { 
             _id: user._id,
-            userName: user.userName
+            userName: user.email_phone
         };
         
         let token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -82,6 +88,9 @@ app.post("/api/user/login", (req, res) => {
         res.status(422).json({ "message": msg });
     });
 });
+
+
+
 
 
 userService.connect()
